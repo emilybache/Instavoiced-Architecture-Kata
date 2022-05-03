@@ -1,0 +1,56 @@
+workspace "Instavoiced" "https://sammancoaching.org/kata_descriptions/instavoiced.html" {
+
+    model {
+    
+        instavoiced = softwareSystem "Instavoiced" {
+            
+        }
+        
+        
+    }
+
+    views {
+        systemlandscape "SystemLandscape" {
+            include *
+            autoLayout
+        }
+        systemContext instavoiced "SystemContext" {
+            include *
+            autoLayout lr
+        }
+        
+        container instavoiced "Containers" {
+            include *
+            autoLayout lr
+        }
+        
+        styles {
+            element "Person" {
+                color #ffffff
+                fontSize 22
+                shape Person
+            }
+            element "Database" {
+                shape Cylinder
+            }
+            element "Web Browser" {
+                shape WebBrowser
+            }
+            element "Software System" {
+                background #1168bd
+                color #ffffff
+            }
+            element "Existing System" {
+                background #999999
+                color #ffffff
+            }
+            element "Container" {
+                background #438dd5
+                color #ffffff
+            }
+            
+        }
+        
+    }
+    
+}

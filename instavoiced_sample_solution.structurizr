@@ -1,0 +1,84 @@
+workspace "Instavoiced" "https://sammancoaching.org/kata_descriptions/instavoiced.html" {
+
+    model {
+
+        instavoiced = softwareSystem "Instavoiced" {
+            webapp = container "Web Application" "Displays invoices and status information" "Single page app" "Web Browser"
+            converter = container "Converter" "Converts invoices from pdf to BigCo's preferred xml format"
+            database = container "Database" "Stores archived invoices" "Acme" "Database"
+            webapp -> converter "send invoice for standardization" "Web Browser"
+            converter -> database "archive invoice"
+            admin_ui = container "Admin UI" "administer OCR mappings" "" "Web Browser"
+            admin_ui -> converter "update OCR mapping"
+            admin_ui -> database "search for archived invoices"
+        }
+
+        technician = person "Onboarding technician"
+
+
+
+
+        ftp_server = softwareSystem "Secure FTP server at BigCo" "Existing System"
+        bigco_accountant = person "BigCo's internal accounts dept"
+
+
+        supplier = person "BigCo's supplier"
+        post_to_pdf = softwareSystem "Post to Pdf service" "Existing System"
+
+        supplier -> instavoiced "Uploads invoices"
+        technician -> instavoiced "Adds OCR mapping for a supplier"
+        post_to_pdf -> instavoiced "Uploads scanned invoices"
+        supplier -> post_to_pdf "Posts paper invoices"
+        instavoiced -> ftp_server "transfers invoices in standard format"
+        bigco_accountant -> instavoiced "searches for archived invoices"
+
+        supplier -> webapp "Uses"
+        technician -> admin_ui "administer OCR mappings"
+
+    }
+
+    views {
+        systemlandscape "SystemLandscape" {
+            include *
+            autoLayout
+        }
+        systemContext instavoiced "SystemContext" {
+            include *
+            autoLayout lr
+        }
+
+        container instavoiced "Containers" {
+            include *
+            autoLayout lr
+        }
+
+        styles {
+            element "Person" {
+                color #ffffff
+                fontSize 22
+                shape Person
+            }
+            element "Database" {
+                shape Cylinder
+            }
+            element "Web Browser" {
+                shape WebBrowser
+            }
+            element "Software System" {
+                background #1168bd
+                color #ffffff
+            }
+            element "Existing System" {
+                background #999999
+                color #ffffff
+            }
+            element "Container" {
+                background #438dd5
+                color #ffffff
+            }
+
+        }
+
+    }
+
+}
